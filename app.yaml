@@ -1,0 +1,12 @@
+application: tui2lang
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /cron_sync
+  script: twitter2sina.py
+  login: admin
+
+- url: /.*
+  script: twitter2sina.py

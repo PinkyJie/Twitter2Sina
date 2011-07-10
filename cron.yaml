@@ -1,0 +1,3 @@
+cron:
+- url: /cron_sync
+  schedule: every 1 minutes
