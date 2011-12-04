@@ -15,17 +15,21 @@ from weibopy.auth import OAuthHandler
 from weibopy.api import API
 from weibopy.error import WeibopError
 
-
+# twitter and sina app key
 app_key = '3275848911'
 app_secret = 'a9e5b80ec14bcdafd19ac2d47173aa92'
 consumer_key = "D7JSMFuPyFRUIKLz0vKTw"
 consumer_secret = "OthracjKzuvRYbnWUyJRYeMnLELf7xxmSNmCv78qPnk"
 
+# regular expressions
 re_username = re.compile(r'@([a-z|A-Z|0-9|_]+):?')
 re_name_prefix = re.compile(r'@\[')
 re_tag = re.compile(r'#(\w+)')
 re_rt1 = re.compile(r'(RT)@')
 re_rt2 = re.compile(r'(RT\s+)@')
+re_url = re.compile('http.?://[^\ ]+')
+re_url_head = re.compile('http.?://')
+re_fetch_url = re.compile('<a href="(.*)">')
 
 html_src = """
 <html>
@@ -51,6 +55,8 @@ html_src = """
 
 
 def replace_tweet(tweet):
+    # replace @username to [username]
+    # replace #tag to #tag#
     for ind,re_str in enumerate([re_username, re_tag]):
         matches = set(re_str.findall(tweet))
         if matches != ['']:
@@ -59,15 +65,25 @@ def replace_tweet(tweet):
                     tweet = tweet.replace(m, '[%s]' % m)
                 elif ind == 1:
                     tweet = tweet.replace(m, '%s#' % m)
-
+	
+    # replace RT to 转发自
     for re_str in [re_rt1, re_rt2]:
         matches = set(re_str.findall(tweet))
         if matches != ['']:
             tweet = re_str.sub(unicode('转发自','utf8'),tweet)
     tweet = re_name_prefix.sub('[',tweet)
+	
+    # expand t.co
+    matches = re_url.findall(tweet)
+    if matches != ['']:
+	for m in matches:
+	    url = re_url_head.sub('',m)
+	    html = urllib.urlopen('http://233.im/%s' % url).read()
+	    real_url = re_fetch_url.findall(html)[0]
+	    if real_url[-1] == '\r':
+		real_url = real_url[:-1]
+	    tweet = re_url.sub(real_url,tweet)
     return tweet
-
-
 
 class OauthUser(db.Model):
     twitter_name = db.StringProperty()
@@ -150,8 +166,10 @@ class AutoSync(webapp.RequestHandler):
                 last_id = result.twitter_last_id
                 tweets_to_be_post = []
                 for tl in timeline:
+		    # disable jiepang
                     if int(tl.id_str) > int(last_id):
-                        tweets_to_be_post.append({'id_str':tl.id_str,'text':tl.text})
+			if tl.source.find(unicode('街旁(JiePang)','utf8')) == -1:
+			    tweets_to_be_post.append({'id_str':tl.id_str,'text':tl.text})
                     else:
                         break
                 if len(tweets_to_be_post) > 0:
@@ -167,6 +185,7 @@ class AutoSync(webapp.RequestHandler):
                         if cur_tweet.find('#nosina') != -1 or cur_tweet.startswith('@'):
                             continue
                         tweet = replace_tweet(cur_tweet)
+			self.response.out.write(tweet)
                         try:
                             sina_api.update_status(tweet)
                             user.twitter_last_id = cur_id
