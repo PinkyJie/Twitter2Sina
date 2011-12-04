@@ -1,5 +1,4 @@
 
-
 什么是Twitter2Sina
 =============
 
@@ -29,7 +28,8 @@ Twitter2Sina是一个自助式的web程序，帮助您将Twitter推文自动同�
  - 所有推文中的链接在Twitter中都被缩短为t.co/xxx，而t.co被新浪认为是非法链接而屏蔽。现在程序支持将包含t.co的链接展开再进行同步。
   
 - 来自街旁网的推文将不会被同步
- - 由于街旁网支持同时将信息同步到新浪微博和Twitter(需使用vpn登陆http://tw.jiepang.com进行设置)，所以为避免重复，本程序将不同步来自于街旁网的推文。
+ - 由于街旁网支持同时将信息同步到新浪微博和Twitter(需使用vpn登陆http://tw.jiepang.com进行设置)
+，所以为避免重复，本程序将不同步来自于街旁网的推文。
 
 
 如何搭建
@@ -53,7 +53,8 @@ Twitter2Sina是一个自助式的web程序，帮助您将Twitter推文自动同�
  - 打开app.yaml将第一行的tui2lang改为自己注册的GAE应用名称。
   
 - 将代码上传到GAE
- - 下载 Google App Engine SDK for Python(http://code.google.com/appengine/downloads.html)或使用其他方式将代码传送到您的GAE上。
+ - 下载 Google App Engine SDK for Python(http://code.google.com/appengine/downloads.html)
+或使用其他方式将代码传送到您的GAE上。
   
 如何使用
 =============
@@ -70,4 +71,4 @@ OAuth认证，将得到的一串数字输入到Twitter Oauth PIN中(需翻墙)�
 后话
 =============
   
-    欢迎对代码及相关功能进行改进，有任何问题请联系 pilixiaoxuanfeng AT gmail.com
+欢迎对代码及相关功能进行改进，有任何问题请联系 pilixiaoxuanfeng AT gmail.com
