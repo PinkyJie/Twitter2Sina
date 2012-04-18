@@ -16,12 +16,11 @@ Twitter2Sina是一个自助式的web程序，帮助您将Twitter推文自动同�
   
 - 回复的推文将不会被同步到新浪微博
  - 考虑到回复性推文同步到新浪后别人也不容易看懂，所以以@开头的回复性推文将不会被同步。
-<<<<<<< HEAD
+
 =======
 
 - 带有\#nosina便签的推文将不会被同步到新浪微博
  - 有时你可能不希望有些推文被同步，so easy，加上\#nosina便签即可。
->>>>>>> 8373024576f9c366919a17657fab08777e6bb641
   
 - 推文中的@username将被替换
  - 考虑到新浪微博中有时可能不存在与Twitter中相同的用户名，同时也处于保护他人隐私的需要，推文中的@username将被替换成[username]。
@@ -33,12 +32,7 @@ Twitter2Sina是一个自助式的web程序，帮助您将Twitter推文自动同�
  - 所有推文中的链接在Twitter中都被缩短为t.co/xxx，而t.co被新浪认为是非法链接而屏蔽。现在程序支持将包含t.co的链接展开再进行同步。
   
 - 来自街旁网的推文将不会被同步
- - 由于街旁网支持同时将信息同步到新浪微博和Twitter(需使用vpn登陆http://tw.jiepang.com进行设置)
-<<<<<<< HEAD
- ，所以为避免重复，本程序将不同步来自于街旁网的推文。
-=======
-，所以为避免重复，本程序将不同步来自于街旁网的推文。
->>>>>>> 8373024576f9c366919a17657fab08777e6bb641
+ - 由于街旁网支持同时将信息同步到新浪微博和Twitter(需使用vpn登陆 http://tw.jiepang.com 进行设置)，所以为避免重复，本程序将不同步来自于街旁网的推文。
 
 
 如何搭建
@@ -62,12 +56,7 @@ Twitter2Sina是一个自助式的web程序，帮助您将Twitter推文自动同�
  - 打开app.yaml将第一行的tui2lang改为自己注册的GAE应用名称。
   
 - 将代码上传到GAE
- - 下载 Google App Engine SDK for Python(http://code.google.com/appengine/downloads.html)
-<<<<<<< HEAD
- 或使用其他方式将代码传送到您的GAE上。
-=======
-或使用其他方式将代码传送到您的GAE上。
->>>>>>> 8373024576f9c366919a17657fab08777e6bb641
+ - 下载 Google App Engine SDK for Python(http://code.google.com/appengine/downloads.html) 或使用其他方式将代码传送到您的GAE上。
   
 如何使用
 =============
@@ -81,10 +70,8 @@ OAuth认证，将得到的一串数字输入到Twitter Oauth PIN中(需翻墙)�
 - 配置成功后，以后每2分钟同步一次。
 
 
-<<<<<<< HEAD
 =======
 
->>>>>>> 8373024576f9c366919a17657fab08777e6bb641
 ## 理论上一个Twitter2Sina程序支持多用户，但新浪微博中未通过审核的应用每天都有请求次数限制，所以最好一个人使用。
 
 后话
