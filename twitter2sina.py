@@ -168,7 +168,7 @@ class AutoSync(webapp.RequestHandler):
                 for tl in timeline:
 		    # disable jiepang
                     if int(tl.id_str) > int(last_id):
-			if tl.source.find(unicode('街旁(JiePang)','utf8')) == -1:
+			if tl.source.find(unicode('街旁(JiePang)','utf8')) == -1  or tl.source.find('Instagram') == -1:
 			    tweets_to_be_post.append({'id_str':tl.id_str,'text':tl.text})
                     else:
                         break
