@@ -15,8 +15,8 @@ from weibo import APIClient, APIError
 APP_KEY = ""  # your sina app key
 APP_SECRET = "" # your sina app secret
 S_CALLBACK = "" # http://your_gae_url/oauth
-CONSUMER_KEY = "D7JSMFuPyFRUIKLz0vKTw"
-CONSUMER_SECRET = "OthracjKzuvRYbnWUyJRYeMnLELf7xxmSNmCv78qPnk"
+CONSUMER_KEY = "" # your twitter app key
+CONSUMER_SECRET = "" # your twitter app secret
 
 # regular expressions
 re_username = re.compile(r'@([a-z|A-Z|0-9|_]+):?')
@@ -163,7 +163,7 @@ class AutoSync(webapp.RequestHandler):
         if query.count() > 0:
             for result in query:
                 # rebuild twitter api
-                twitter = tweepy.OAuthHandler(consumer_key,consumer_secret)
+                twitter = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET)
                 twitter.set_access_token(result.twitter_access_key,result.twitter_access_secret)
                 twitter_api = tweepy.API(twitter)
                 
@@ -180,10 +180,10 @@ class AutoSync(webapp.RequestHandler):
                 if len(tweets_to_be_post) > 0:
                     # rebuild sina api
                     sina_api = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=S_CALLBACK)
-                    sina_api.set_access_token(result.s_access_token,int(result.s_expire))
+                    sina_api.set_access_token(result.sina_access_token,int(result.sina_expire))
                     
                     for tweet_obj in reversed(tweets_to_be_post):
-                        user = OauthUser.get_by_key_name(result.sina_name)
+                        user = OauthUser.get_by_key_name(result.twitter_name)
                         cur_id = tweet_obj['id_str']
                         cur_tweet = tweet_obj['text']
                         if cur_tweet.find('#nosina') != -1 or cur_tweet.startswith('@'):
@@ -198,6 +198,8 @@ class AutoSync(webapp.RequestHandler):
                         except APIError,e:
                             self.response.out.write(e)
                             self.response.out.write('<br>')
+                        else:
+                            self.response.out.write('没有新的推文供同步！')
 
 
 application = webapp.WSGIApplication(
